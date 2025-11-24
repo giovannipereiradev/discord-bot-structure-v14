@@ -1,0 +1,28 @@
+{
+  "name": "discord-bot-structure-v14",
+  "version": "1.0.0",
+  "main": "app.js",
+  "type": "module",
+  "scripts": {
+    "dev": "cross-env NODE_ENV=development node src/deploy-commands.js && node app.js",
+    "start": "cross-env NODE_ENV=production node src/deploy-commands.js && node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/giovannipereiradev/discord-bot-structure-v14.git"
+  },
+  "author": "giovannipereiradev",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/giovannipereiradev/discord-bot-structure-v14/issues"
+  },
+  "homepage": "https://github.com/giovannipereiradev/discord-bot-structure-v14#readme",
+  "description": "",
+  "dependencies": {
+    "chalk": "^5.6.2",
+    "cross-env": "^10.1.0",
+    "discord.js": "^14.24.2",
+    "dotenv": "^17.2.3",
+    "mongoose": "^8.19.3"
+  }
+}
