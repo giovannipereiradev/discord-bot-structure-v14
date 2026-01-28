@@ -11,7 +11,4 @@ import { startPresenceRotator } from '../../utils/presenceRotator.js';
 
 export default async (client) => {
   log.success(`${client.user.tag} online`);
-
-  // Start rotating presence messages
-  startPresenceRotator(client, 5000); 
 };
