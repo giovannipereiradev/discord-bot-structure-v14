@@ -1,8 +1,7 @@
-# 🤖 Discord Bot Structure v14
+# Discord Bot Structure v14
 
 <div align="center">
 
-## **Discord Bot Structure v14**
 **Estrutura modular e escalável para bots Discord com discord.js v14, MongoDB e suporte a múltiplos ambientes**
 
 ![Último commit](https://img.shields.io/github/last-commit/giovannipereiradev/discord-bot-structure-v14?style=for-the-badge)
