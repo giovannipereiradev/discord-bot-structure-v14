@@ -207,17 +207,3 @@ export default async (message, client) => {
   if (message.author.bot) return;
   console.log(`Nova mensagem de ${message.author.tag}`);
 };
-```
-
-## Contribuição
-
-Contribuições são bem-vindas! Para contribuir:
-
-1. **Faça um fork** do repositório.
-2. Crie uma branch a partir da `main` com um nome descritivo:
-   ```bash
-   git checkout -b feature/adicionar-cooldown
-   ```
-3. Use o padrão **[Conventional Commits](https://www.conventionalcommits.org/pt-br/v1.0.0/)** nas mensagens (ex.: `feat: adicionar sistema de cooldown`).
-4. Após implementar e testar, **abra um Pull Request** descrevendo suas alterações.
-5. Aguarde a revisão e feedback.
