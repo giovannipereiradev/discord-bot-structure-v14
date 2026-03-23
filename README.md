@@ -2,208 +2,202 @@
 
 <div align="center">
 
-**Estrutura modular e escalável para bots Discord com discord.js v14, MongoDB e suporte a múltiplos ambientes**
+<img src="discord-bot-structure.png" alt="Bot Structure" width="720" />
 
-![Último commit](https://img.shields.io/github/last-commit/giovannipereiradev/discord-bot-structure-v14?style=for-the-badge)
-![Licença MIT](https://img.shields.io/github/license/giovannipereiradev/discord-bot-structure-v14?style=for-the-badge)
-![Versão](https://img.shields.io/badge/version-1.0.0-blue?style=for-the-badge)
-![Node.js](https://img.shields.io/badge/Node.js-18%2B-green?style=for-the-badge&logo=node.js)
+![Version](https://img.shields.io/badge/version-1.0.0-blue?style=for-the-badge)
+![License](https://img.shields.io/badge/license-Non--Commercial-red?style=for-the-badge)
+![Node.js](https://img.shields.io/badge/Node.js-ESModules-339933?style=for-the-badge&logo=node.js&logoColor=white)
 ![Discord.js](https://img.shields.io/badge/discord.js-v14-5865F2?style=for-the-badge&logo=discord&logoColor=white)
 ![MongoDB](https://img.shields.io/badge/MongoDB-optional-47A248?style=for-the-badge&logo=mongodb&logoColor=white)
 
 </div>
 
-## Sobre o Projeto
+[Para ler em Português, clique aqui!](./README.pt-BR.md)
 
-O **Discord Bot Structure v14** é uma base de desenvolvimento para bots no Discord construída com **Node.js** e **discord.js v14**. O objetivo é fornecer uma estrutura organizada, robusta e pronta para escalar — permitindo que o desenvolvedor foque na lógica do bot sem se preocupar com boilerplate.
+## About
 
-A estrutura conta com carregamento automático de comandos e eventos via handlers dinâmicos, suporte a múltiplos ambientes (`development` / `production`) através de arquivos `.env` separados, integração opcional com **MongoDB** via Mongoose, e um sistema de log colorido com **Chalk** para facilitar o debug no terminal.
+**Discord Bot Structure v14** is a modular and scalable development base for Discord bots built with **discord.js v14** and **Node.js**. The goal is to provide a clean, robust, and ready-to-scale foundation, letting you focus on the bot's logic without worrying about boilerplate.
 
-Este projeto demonstra boas práticas em arquitetura de bots: separação de responsabilidades, validação de configurações na inicialização, tratamento de erros por comando e utilitários reutilizáveis para embeds e mensagens.
+It features automatic command and event loading via dynamic handlers, multi-environment support (`development` / `production`) through separate `.env` files, optional **MongoDB** integration via Mongoose, and a colorized log system using **Chalk** for easier terminal debugging.
 
 ## Features
 
-| Recurso | Descrição |
+| Feature | Description |
 |---|---|
-| Handlers automáticos | Carregamento dinâmico de comandos e eventos via `commandHandler` e `eventHandler`, sem necessidade de importações manuais. |
-| Multi-ambiente | Suporte nativo a `.env.development` e `.env.production`, alternando automaticamente conforme `NODE_ENV`. |
-| Validação de config | Na inicialização, variáveis obrigatórias (`TOKEN`, `OWNER_ID`) são validadas; o processo encerra com mensagem clara se algo estiver faltando. |
-| Integração com MongoDB | Conexão opcional via Mongoose. Se `MONGO_URI` não estiver definida, a aplicação sobe normalmente sem banco. |
-| Sistema de log colorido | Logger com **Chalk** distinguindo `[DEV]` e `[PRD]` com cores, além de níveis `info`, `success`, `warn` e `error`. |
-| Utilitários de mensagem | `messageBuilder.js` centraliza a criação de **Embeds** e mensagens formatadas com emojis configuráveis. |
-| Controle de comandos | Cada comando suporta os campos `ownerOnly`, `enabled` e `cooldown`, com checagem automática no `interactionCreate`. |
-| Deploy de Slash Commands | Script dedicado `deploy-commands.js` para registrar os comandos na API do Discord antes de subir o bot. |
+| **Automatic handlers** | Dynamic loading of commands and events via `commandHandler` and `eventHandler`, no manual imports required. |
+| **Multi-environment** | Native support for `.env.development` and `.env.production`, switching automatically based on `NODE_ENV`. |
+| **Config validation** | On startup, required variables (`TOKEN`, `OWNER_ID`) are validated; the process exits with a clear message if anything is missing. |
+| **MongoDB integration** | Optional connection via Mongoose. If `MONGO_URI` is not set, the bot starts normally without a database. |
+| **Colorized log system** | Logger using **Chalk** that distinguishes `[DEV]` and `[PRD]` with colors, plus `info`, `success`, `warn`, and `error` levels. |
+| **Message utilities** | `messageBuilder.js` centralizes the creation of **Embeds** and formatted messages with configurable emojis. |
+| **Command control** | Each command supports `ownerOnly`, `enabled`, and `cooldown` fields, with automatic checks in `interactionCreate`. |
+| **Slash command deploy** | Dedicated `deploy-commands.js` script to register commands with the Discord API before starting the bot. |
 
-## Arquitetura
+## Architecture
 
-O fluxo parte do `app.js`, que delega para o `src/index.js`. Este inicializa o client, conecta ao MongoDB e dispara os handlers para registrar comandos e eventos dinamicamente.
+The flow starts from `app.js`, which delegates to `src/index.js`. This initializes the client, connects to MongoDB, and triggers the handlers to dynamically register commands and events.
 
 ```
 app.js
   └── src/index.js
-        ├── loadConfig()         → Carrega .env baseado em NODE_ENV
-        ├── connectMongo()       → Conecta ao MongoDB (opcional)
-        ├── loadEvents(client)   → Varre src/events/**/*.js e registra listeners
-        └── loadCommands(client) → Varre src/commands/**/*.js e popula client.commands
+        ├── loadConfig()         → Loads .env based on NODE_ENV
+        ├── connectMongo()       → Connects to MongoDB (optional)
+        ├── loadEvents(client)   → Scans src/events/**/*.js and registers listeners
+        └── loadCommands(client) → Scans src/commands/**/*.js and populates client.commands
               │
               └── interactionCreate (event)
-                    ├── Verifica ownerOnly / enabled
-                    ├── Trata erros com reply/followUp seguro
+                    ├── Validates ownerOnly / enabled
+                    ├── Handles errors with safe reply/followUp
                     └── command.execute(interaction, client)
 ```
 
-Quando um usuário usa um Slash Command, o evento `interactionCreate` recupera o comando da `Collection`, aplica as validações (`ownerOnly`, `enabled`) e executa o handler correspondente. Erros são capturados individualmente, sem derrubar o processo.
+When a user runs a Slash Command, the `interactionCreate` event retrieves the command from the `Collection`, applies validations (`ownerOnly`, `enabled`), and executes the corresponding handler. Errors are caught individually without crashing the process.
 
-## Tecnologias Utilizadas
+## Technologies
 
-- **Node.js 18+** — runtime JavaScript para o servidor, com suporte a ES Modules (`"type": "module"`).
-- **discord.js 14.24.2** — biblioteca principal para interação com a API do Discord, com suporte completo a Slash Commands e GatewayIntents.
-- **dotenv 17.2.3** — carregamento de variáveis de ambiente a partir de arquivos `.env` por ambiente.
-- **cross-env 10.1.0** — define `NODE_ENV` de forma compatível entre sistemas operacionais nos scripts npm.
-- **mongoose 8.19.3** — ODM para MongoDB, utilizado para modelagem e persistência de dados.
-- **chalk 5.6.2** — formatação de texto colorido no terminal para o sistema de log.
+- **[discord.js](https://discord.js.org/) `^14.24.2`**: main library for interacting with the Discord API; provides `Client`, `GatewayIntentBits`, `SlashCommandBuilder`, `Collection`, and permission utilities.
+- **[mongoose](https://mongoosejs.com/) `^8.19.3`**: ODM for MongoDB; used for data modeling and persistence.
+- **[dotenv](https://github.com/motdotla/dotenv) `^17.2.3`**: loads environment variables from environment-specific `.env.*` files.
+- **[chalk](https://github.com/chalk/chalk) `^5.6.2`**: colorized terminal output; used by `logger.js` to distinguish levels and environments visually.
+- **[cross-env](https://github.com/kentcdodds/cross-env) `^10.1.0`**: sets `NODE_ENV` portably in npm scripts, ensuring compatibility across Windows, Linux, and macOS.
 
-## Instalação
+## Installation
 
-### Pré-requisitos
+Prerequisites:
 
-- **Node.js** v18 ou superior
-- **npm** v8 ou superior
-- Um bot criado no [Discord Developer Portal](https://discord.com/developers/applications) com as permissões necessárias
-
-### Clonando o repositório
+- **Node.js** `>= 18.0.0`
+- **npm** `>= 8.0.0`
+- A Discord application created on the [Discord Developer Portal](https://discord.com/developers/applications) with a bot token, the necessary intents enabled, and the bot added to your server with the `bot` and `applications.commands` scopes.
 
 ```bash
 git clone https://github.com/giovannipereiradev/discord-bot-structure-v14.git
 cd discord-bot-structure-v14
-```
-
-### Instalando as dependências
-
-```bash
 npm install
 ```
 
-## Configuração
+## Configuration
 
-O projeto utiliza arquivos `.env` separados por ambiente. Crie ou edite os arquivos na raiz do projeto:
+Create the environment files in the project root:
 
-**`.env.development`** — usado ao rodar com `npm run dev`:
+**`.env.development`**
 ```env
 NODE_ENV=development
-TOKEN=seu_token_de_desenvolvimento
-MONGO_URI=mongodb://localhost:27017/meu-bot-dev
-OWNER_ID=seu_discord_user_id
-CLIENT_ID=id_da_aplicacao
-GUILD_ID=id_do_servidor_de_testes
+TOKEN=your_development_token
+MONGO_URI=mongodb://localhost:27017/my-bot-dev
+OWNER_ID=your_discord_user_id
+CLIENT_ID=your_application_id
+GUILD_ID=your_test_server_id
 ```
 
-**`.env.production`** — usado ao rodar com `npm start`:
+**`.env.production`**
 ```env
 NODE_ENV=production
-TOKEN=seu_token_de_producao
-MONGO_URI=sua_string_mongodb_atlas
-OWNER_ID=seu_discord_user_id
-CLIENT_ID=id_da_aplicacao
+TOKEN=your_production_token
+MONGO_URI=your_mongodb_atlas_string
+OWNER_ID=your_discord_user_id
+CLIENT_ID=your_application_id
 ```
 
-| Variável | Obrigatória | Descrição |
+| Variable | Required | Description |
 |---|---|---|
-| `TOKEN` | ✅ Sim | Token do bot obtido no Discord Developer Portal. |
-| `OWNER_ID` | ✅ Sim | ID do usuário Discord dono do bot. Usado para comandos `ownerOnly`. |
-| `CLIENT_ID` | ⚠️ Deploy | ID da aplicação. Necessário para o `deploy-commands.js`. |
-| `GUILD_ID` | ⚠️ Dev | ID do servidor de testes. Omitir registra comandos globalmente. |
-| `MONGO_URI` | ❌ Não | String de conexão do MongoDB. Se ausente, o bot sobe sem banco. |
+| `TOKEN` | Yes | Bot token obtained from the Discord Developer Portal. |
+| `OWNER_ID` | Yes | Discord user ID of the bot owner. Used for `ownerOnly` commands. |
+| `CLIENT_ID` | Deploy | Application ID. Required for `deploy-commands.js`. |
+| `GUILD_ID` | Dev | Test server ID. Omitting it registers commands globally. |
+| `MONGO_URI` | No | MongoDB connection string. If absent, the bot starts without a database. |
 
-> **⚠️ Segurança:** Nunca suba os arquivos `.env.*` para o repositório. Eles já estão no `.gitignore`.
-
-## Estrutura de Pastas
+## Folder Structure
 
 ```
 discord-bot-structure-v14/
 │
-├── src/
-│   ├── commands/               # Comandos organizados por categoria
-│   │   ├── admin/
-│   │   └── utils/
-│   │       └── ping.js         # Exemplo de comando
-│   │
-│   ├── events/                 # Eventos do Discord organizados por escopo
-│   │   ├── client/
-│   │   │   └── clientReady.js  # Evento: bot online
-│   │   └── guild/
-│   │       └── interactionCreate.js  # Evento: slash commands
-│   │
-│   ├── handlers/               # Lógica de carregamento automático
-│   │   ├── commandHandler.js   # Varre e registra comandos
-│   │   ├── eventHandler.js     # Varre e registra eventos
-│   │   └── mongoHandler.js     # Gerencia conexão com MongoDB
-│   │
-│   ├── services/
-│   │   └── logger.js           # Logger colorido com Chalk
-│   │
-│   ├── utils/
-│   │   ├── config.json         # Configurações visuais (cores, emojis)
-│   │   └── messageBuilder.js   # Utilitário para Embeds e mensagens
-│   │
-│   ├── deploy-commands.js      # Script de registro de Slash Commands
-│   └── index.js                # Inicialização do client e handlers
+├── app.js                      # Entry point
+├── config.js                   # .env loader and validation
+├── package.json
 │
-├── app.js                      # Ponto de entrada
-├── config.js                   # Carregamento e validação do .env
-├── .env.development
-├── .env.production
-└── package.json
+├── .env.development             # Development environment variables (do not version)
+├── .env.production              # Production environment variables (do not version)
+│
+└── src/
+    ├── index.js                 # Initializes the Discord client and loads handlers
+    ├── deploy-commands.js       # Registers Slash Commands with the Discord API
+    │
+    ├── commands/                # Slash commands organized by category
+    │   ├── admin/               # Admin-only commands
+    │   └── utils/
+    │       └── ping.js          # /ping - checks bot latency
+    │
+    ├── events/                  # Discord event handlers grouped by scope
+    │   ├── client/
+    │   │   └── clientReady.js   # Fires when the bot comes online
+    │   └── guild/
+    │       └── interactionCreate.js  # Dispatches slash commands; validates ownerOnly and enabled
+    │
+    ├── handlers/                # Core loading and processing logic
+    │   ├── commandHandler.js    # Dynamically loads commands into client.commands
+    │   ├── eventHandler.js      # Dynamically registers events on the client
+    │   └── mongoHandler.js      # Manages the MongoDB connection
+    │
+    ├── services/
+    │   └── logger.js            # Colorized logger with chalk (INFO/SUCCESS/WARN/ERROR + env)
+    │
+    └── utils/
+        ├── config.json          # Static settings (default embed color, emojis)
+        └── messageBuilder.js    # Factory for formatted messages and embeds
 ```
 
-## Como Usar
-
-### Rodando em desenvolvimento
+## How to Use
 
 ```bash
+# Development environment
 npm run dev
-```
 
-Executa `deploy-commands.js` (registra comandos no servidor de testes via `GUILD_ID`) e sobe o bot com `NODE_ENV=development`.
-
-### Rodando em produção
-
-```bash
+# Production environment
 npm start
 ```
 
-Executa `deploy-commands.js` globalmente e sobe o bot com `NODE_ENV=production`.
+**Adding a new slash command**
 
-### Criando um novo comando
-
-Crie um arquivo `.js` dentro de `src/commands/sua-categoria/`. O handler o detecta automaticamente.
+Create a `.js` file inside a category folder under `src/commands/` and restart the bot. The `commandHandler.js` and `deploy-commands.js` detect and register it automatically.
 
 ```js
+// src/commands/utils/myCommand.js
 import { SlashCommandBuilder, PermissionFlagsBits } from 'discord.js';
 
 export default {
   data: new SlashCommandBuilder()
-    .setName('exemplo')
-    .setDescription('Descrição do comando.')
+    .setName('my-command')
+    .setDescription('Command description.')
     .setDefaultMemberPermissions(PermissionFlagsBits.SendMessages),
+
   category: 'utils',
   cooldown: 5,
   ownerOnly: false,
   enabled: true,
 
   async execute(interaction, client) {
-    await interaction.reply({ content: '✅ Funcionou!', ephemeral: true });
+    await interaction.reply({ content: '✅ It works!', ephemeral: true });
   }
 };
 ```
 
-### Criando um novo evento
+**Adding a new event**
 
-Crie um arquivo `.js` dentro de `src/events/sua-categoria/`. O nome do arquivo deve ser o nome exato do evento Discord.
+Create a `.js` file inside `src/events/client/` or `src/events/guild/`. The filename must exactly match the Discord event name (e.g., `guildMemberAdd.js`). The `eventHandler.js` registers it automatically on restart.
 
 ```js
-// src/events/guild/messageCreate.js
-export default async (message, client) => {
-  if (message.author.bot) return;
-  console.log(`Nova mensagem de ${message.author.tag}`);
+// src/events/guild/guildMemberAdd.js
+import { log } from '../../services/logger.js';
+
+export default async (member, client) => {
+  log.info(`New member: ${member.user.tag}`);
 };
+```
+
+## License
+
+Distributed under the MIT License. See the [LICENSE](LICENSE) file for more details.
+
+<div align="center">
+  Developed by <a href="https://giovannitavares.com">Giovanni Tavares</a>
+</div>

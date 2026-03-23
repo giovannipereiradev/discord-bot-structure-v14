@@ -1,21 +1,73 @@
-MIT License
-
 Copyright (c) 2026 Giovanni Tavares
+https://giovannitavares.com
+
+NON-COMMERCIAL USE LICENSE
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+of this software and associated documentation files (the "Software"), to use,
+copy, modify, and distribute the Software for non-commercial purposes only,
+subject to the following conditions:
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+1. PERMITTED USE
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+   You may use, copy, modify, and share this Software solely for personal,
+   educational, or non-commercial purposes, provided that:
+
+   a) This license notice is included, intact and unaltered, in all copies
+      or substantial portions of the Software;
+   b) The original author (Giovanni Tavares — https://giovannitavares.com)
+      is clearly and visibly credited in any distribution or derivative work,
+      including but not limited to source code, documentation, and public
+      repositories;
+   c) Any modifications made to the Software are explicitly documented
+      and marked as different from the original;
+   d) Any derivative work must be made publicly available as open source
+      under this same license. Keeping modified versions private or
+      distributing them under a different license is not permitted.
+
+2. RESTRICTIONS
+
+   The following are strictly PROHIBITED without prior written permission
+   from the author:
+
+   a) Any commercial use of the Software, in whole or in part, including
+      but not limited to:
+      — selling or sublicensing the Software or derivative works;
+      — integrating the Software into paid products or services;
+      — using the Software within any business, company, or organization
+        for revenue-generating purposes;
+      — offering paid services or products built upon this Software;
+      — reselling or redistributing this Software to third parties for
+        commercial gain;
+
+   b) Removing, altering, or obscuring this license notice, copyright
+      notices, or credits to the original author.
+
+3. COMMERCIAL LICENSING
+
+   To request permission for commercial use, contact the author directly
+   via: https://giovannitavares.com
+
+   Each authorization is granted individually, in writing, and may be
+   subject to specific terms agreed upon between the parties.
+
+4. DISCLAIMER OF WARRANTY
+
+   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+   OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+   MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT.
+   IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER
+   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+   FROM, OUT OF, OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+   DEALINGS IN THE SOFTWARE.
+
+5. TERMINATION
+
+   Any violation of the terms of this license results in the automatic and
+   immediate termination of all rights granted herein. The author reserves
+   the right to pursue legal action in the event of unauthorized use.
+
+6. GOVERNING LAW
+
+   This license shall be governed by and construed in accordance with the
+   laws of the Federative Republic of Brazil.
